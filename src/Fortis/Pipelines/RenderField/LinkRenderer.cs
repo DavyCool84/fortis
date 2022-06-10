@@ -1,4 +1,6 @@
-﻿namespace Fortis.Pipelines.RenderField
+﻿using Sitecore.Annotations;
+
+namespace Fortis.Pipelines.RenderField
 {
 	using System.Linq;
 	using Sitecore.Pipelines.RenderField;

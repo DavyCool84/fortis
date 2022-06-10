@@ -11,32 +11,36 @@ namespace Fortis.Search
 {
 	public class SolrDocumentTypeMapper : SolrDocumentPropertyMapper
 	{
-		public override TElement MapToType<TElement>(Dictionary<string, object> document, SelectMethod selectMethod, IEnumerable<IFieldQueryTranslator> virtualFieldProcessors, SearchSecurityOptions securityOptions)
-		{
-			var typeOfTElement = typeof(TElement);
+        public override TElement MapToType<TElement>(Dictionary<string, object> document, SelectMethod selectMethod, IEnumerable<IFieldQueryTranslator> virtualFieldProcessors,
+            IEnumerable<IExecutionContext> executionContexts, SearchSecurityOptions securityOptions)
+        {
+            var typeOfTElement = typeof(TElement);
 
-			if (!typeof(IItemWrapper).IsAssignableFrom(typeOfTElement))
-			{
-				return base.MapToType<TElement>(document, selectMethod, virtualFieldProcessors, securityOptions);	
+            if (!typeof(IItemWrapper).IsAssignableFrom(typeOfTElement))
+            {
+				return base.MapToType<TElement>(document, selectMethod, virtualFieldProcessors, executionContexts, securityOptions);
 			}
 
-			Guid itemId;
-			Guid templateId;
+            Guid itemId;
+            Guid templateId;
 
-			if (document.ContainsKey(Templates.Fields.Group) &&
-				document.ContainsKey(Templates.Fields.TemplateName) &&
-				Guid.TryParse(document[Templates.Fields.Group].ToString(), out itemId) &&
-				Guid.TryParse(document[Templates.Fields.TemplateName].ToString(), out templateId))
-			{
-				var item = Global.SpawnProvider.FromItem(itemId, templateId, typeOfTElement, document);
+            if (document.ContainsKey(Templates.Fields.Group) &&
+                document.ContainsKey(Templates.Fields.TemplateName) &&
+                Guid.TryParse(document[Templates.Fields.Group].ToString(), out itemId) &&
+                Guid.TryParse(document[Templates.Fields.TemplateName].ToString(), out templateId))
+            {
+                var item = Global.SpawnProvider.FromItem(itemId, templateId, typeOfTElement, document);
 
-				if (item is TElement)
-				{
-					return (TElement)item;
-				}
-			}
+                if (item is TElement)
+                {
+                    return (TElement)item;
+                }
+            }
 
-			return default(TElement);
+            return default(TElement);
 		}
+
+
+    
 	}
 }
