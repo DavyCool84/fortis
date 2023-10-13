@@ -18,7 +18,7 @@ Requires: Sitecore 7.2+</description>
         <tags>Sitecore Fortis</tags>
     </metadata>
     <files>
-        <file src="..\bin\Release\net452\Fortis.dll" target="lib\net452\Fortis.dll" />
+        <file src="..\bin\Release\net48\Fortis.dll" target="lib\net48\Fortis.dll" />
         <file src="readme.txt" target="readme.txt" />
     </files>
 </package>
